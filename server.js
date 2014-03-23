@@ -13,7 +13,9 @@ app.use(express.urlencoded());
 app.use('/', express.static(__dirname + '/public/'));
 
 /*TODO: refactor api endpoint objects*/
-app.post('/api/sample', api.samplefunc); // local account check
+app.get('/api/df', api.df);
+app.get('/api/hostname', api.hostname);
+app.get('/api/uptime', api.uptime);
 
 //Initiate Server
 app.listen(8080, function () {

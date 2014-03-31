@@ -11,6 +11,8 @@ app.use(express.urlencoded());
 
 //Static Endpoint
 app.use('/', express.static(__dirname + '/public/'));
+//Static Endpoint
+app.use('/new/', express.static(__dirname + '/new_public/'));
 
 /*TODO: refactor api endpoint objects*/
 app.post('/api/sample', api.samplefunc); // local account check

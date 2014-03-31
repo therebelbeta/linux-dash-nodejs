@@ -125,7 +125,7 @@
 
     function get_df(){
         
-        $.get( "sh/df.php", function( data ) {
+        $.get( "/api/df", function( data ) {
           
             var table = $('#df_dashboard');
             
@@ -185,8 +185,8 @@
     
     function get_os_info(){ 
         generate_os_data('sh/issue.php','#os-info');
-        generate_os_data('sh/hostname.php','#os-hostname');
-        generate_os_data('sh/uptime.php','#os-uptime');
+        generate_os_data('api/hostname','#os-hostname');
+        generate_os_data('api/uptime','#os-uptime');
     }
     
     function get_ip(){

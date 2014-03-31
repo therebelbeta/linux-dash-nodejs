@@ -1,5 +1,8 @@
 //Dependencies
 var requirePrivate = require('require-private');
+var sys = require('sys')
+var exec = require('child_process').exec;
+var _ = require('lodash');
 
 //Services
 
@@ -14,18 +17,31 @@ module.exports = function(){
 		bandwidth:function(){
 
 		},
-		df: function(){
-			/*exec('df -h|awk \'{print $1","$2","$3","$4","$5","$6}\'',$result);*/
-			/*return [["\/dev\/sda1","9.4G","4.6G","4.4G","52%","\/"],etc.]*/
+		df: function(req, res){
+			var command = "df -h | awk '{print $1\",\"$2\",\"$3\",\"$4\",\"$5\",\"$6}'";
+			exec(command, function(error, stdout, stderr) { 
+				stdout = stdout.split('\n');
+				_.forEach(stdout, function(value, key){
+					stdout[key] = value.split(',');
+				});
+				stdout.shift();
+				stdout.pop();
+  				res.json(stdout); // END POINT: AUTHENTICATED
+
+			});
 		},
 		dnsmaqLeases:function(){
 
 		},
-		hostname: function(){
-			/*shell_exec('hostname')*/
-			/*"thomas-mckean\n"*/
+		hostname: function(req, res){
+			var command = "hostname";
+			exec(command, function(error, stdout, stderr) { 
+  				res.json(stdout); // END POINT: AUTHENTICATED
+
+			});
 		},
 		ip: function(){
+
 			/*exec('/sbin/ifconfig |grep -B1 "inet addr" |awk \''.
          '{ if ( $1 == "inet" ) { print $2 } else if ( $2 == "Link" ) { printf "%s:",$1 } }\' |awk'.
          ' -F: \'{ print $1","$3 }\'',$result);
@@ -83,7 +99,13 @@ module.exports = function(){
 		top: function(){
 
 		},
-		uptime: function(){
+		uptime: function(req, res){
+			var command = "cat /proc/uptime";
+			exec(command, function(error, stdout, stderr) { 
+				stdout = Math.ceil(stdout.split(' ')[0]/60/60);
+  				res.json(stdout); // END POINT: AUTHENTICATED
+
+			});
 			/*echo (int) (shell_exec('cat /proc/uptime')/(60*60));*/
 			/*"7 days 1 hours 28 minutes"*/
 		},
